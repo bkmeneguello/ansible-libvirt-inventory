@@ -1,0 +1,21 @@
+---
+plugin: libvirt
+uri: qemu:///system
+host_xpath: ./*/addrs[2]/addr
+state_groups:
+  tpl: state_{}
+group_by:
+  - xpath: "./name[starts-with(., 'web')]"
+    tpl: webservers
+  - xpath: "./devices/interface[@type='network']/source@network"
+    tpl: net_{}
+  - xpath: "./devices/disk[@type='volume'][@device='cdrom']"
+    tpl: cdrom
+  - xpath: "./os/type"
+    tpl: os_type_{}
+  - xpath: ".@type"
+    tpl: virt_{}
+extra_attributes:
+  arch: "./os/type@arch"
+  machine: "./os/type@machine"
+  emulator: "./devices/emulator"
